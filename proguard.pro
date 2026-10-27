@@ -1,0 +1,10 @@
+-injars tmp.jar
+-outjars dist/DarkSouls.jar
+-libraryjars <java.home>/lib/rt.jar
+-libraryjars lib/microemu-midp-2.0.4.jar
+-libraryjars lib/microemu-cldc-2.0.4.jar
+-microedition
+-dontobfuscate
+-dontoptimize
+-dontwarn **
+-keep public class Main
