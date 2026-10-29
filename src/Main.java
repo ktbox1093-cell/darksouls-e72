@@ -6,6 +6,7 @@ public class Main extends MIDlet {
   protected void startApp() {
     if (g == null) {
       Game.disp = Display.getDisplay(this);
+      Game.mid = this;
       g = new Game();
       Display.getDisplay(this).setCurrent(g);
       new Thread(g).start();
