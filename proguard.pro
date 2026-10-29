@@ -1,5 +1,5 @@
 -injars tmp.jar
--outjars dist/DarkSouls.jar
+-outjars dist/SoulsE72.jar
 -libraryjars <java.home>/lib/rt.jar
 -libraryjars lib/microemu-midp-2.0.4.jar
 -libraryjars lib/microemu-cldc-2.0.4.jar
@@ -7,4 +7,5 @@
 -dontobfuscate
 -dontoptimize
 -dontwarn **
+-dontnote **
 -keep public class Main
