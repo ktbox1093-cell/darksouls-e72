@@ -11,18 +11,19 @@ jobs:
           java-version: 8
       - name: Compilar
         run: |
-          mkdir -p lib classes dist
+          mkdir -p lib classes dist res
+          python3 make_icon.py
           M=https://repo1.maven.org/maven2/org/microemu
           wget -q $M/microemu-midp/2.0.4/microemu-midp-2.0.4.jar -P lib
           wget -q $M/microemu-cldc/2.0.4/microemu-cldc-2.0.4.jar -P lib
           wget -q https://github.com/Guardsquare/proguard/releases/download/v7.4.2/proguard-7.4.2.zip
           unzip -q proguard-7.4.2.zip
-          javac -source 1.3 -target 1.3 -cp "lib/*" -d classes src/*.java
-          jar cfm tmp.jar manifest.txt -C classes .
+          javac -encoding UTF-8 -source 1.3 -target 1.3 -cp "lib/*" -d classes src/*.java
+          jar cfm tmp.jar manifest.txt -C classes . -C res .
           java -jar proguard-7.4.2/lib/proguard.jar @proguard.pro
-          S=$(stat -c%s dist/DarkSouls.jar)
-          printf "MIDlet-1: DarkSouls,,Main\nMIDlet-Name: DarkSouls\nMIDlet-Vendor: Yo\nMIDlet-Version: 1.0\nMIDlet-Jar-URL: DarkSouls.jar\nMIDlet-Jar-Size: $S\nMicroEdition-Configuration: CLDC-1.1\nMicroEdition-Profile: MIDP-2.0\n" > dist/DarkSouls.jad
+          S=$(stat -c%s dist/SoulsE72.jar)
+          printf "MIDlet-1: Souls E72,/icon.png,Main\nMIDlet-Name: Souls E72\nMIDlet-Vendor: Souls\nMIDlet-Version: 2.0\nMIDlet-Icon: /icon.png\nMIDlet-Jar-URL: SoulsE72.jar\nMIDlet-Jar-Size: $S\nMicroEdition-Configuration: CLDC-1.1\nMicroEdition-Profile: MIDP-2.0\n" > dist/SoulsE72.jad
       - uses: actions/upload-artifact@v4
         with:
-          name: DarkSouls
+          name: SoulsE72
           path: dist
