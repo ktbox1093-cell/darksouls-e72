@@ -1,6 +1,7 @@
-MIDlet-1: DarkSouls,,Main
-MIDlet-Name: DarkSouls
-MIDlet-Vendor: Yo
-MIDlet-Version: 1.0
+MIDlet-1: Souls E72,/icon.png,Main
+MIDlet-Name: Souls E72
+MIDlet-Vendor: Souls
+MIDlet-Version: 2.0
+MIDlet-Icon: /icon.png
 MicroEdition-Configuration: CLDC-1.1
 MicroEdition-Profile: MIDP-2.0
