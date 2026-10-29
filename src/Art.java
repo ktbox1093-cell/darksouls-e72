@@ -7,18 +7,18 @@ public class Art {
   static final int NP = 10;         // poses por personaje
   static final int IDLE0 = 0, WALK0 = 2, WIND = 6, SWING = 7, ROLL = 8, GUARD = 9;
   static final int W_NONE = 0, W_SWORD = 1, W_DAGGER = 2, W_MACE = 3, W_KNIFE = 4,
-                   W_BOW = 5, W_CLUB = 6, W_GREAT = 7;
+                   W_BOW = 5, W_CLUB = 6, W_GREAT = 7, W_STAFF = 8;
 
   // estilos: 0 caballero, 1 asesino, 2 clerigo, 3 ladron, 4 arquero,
   //          5 hueco, 6 arquero enemigo, 7 pesado, 8 jefe
-  static final int[] SC = { 4, 4, 4, 4, 4, 4, 4, 5, 6 };
+  static final int[] SC = { 4, 4, 4, 4, 4, 4, 4, 5, 6, 4, 4, 6, 6 };
   static final int CW = 44, CH = 44, OXU = 22, OYU = 39;
-  static final int[] WPN = { W_SWORD, W_DAGGER, W_MACE, W_KNIFE, W_BOW, W_NONE, W_BOW, W_CLUB, W_GREAT };
-  static final int[] SKIN  = { 0xF2C9A0, 0xE8B88A, 0xF5D0A8, 0xE9BE92, 0xF0C79B, 0x8FAF7A, 0xB8B8A8, 0x9A8F8F, 0x6A4A7A };
-  static final int[] TORSO = { 0x6A7AA0, 0x5A5278, 0xEDE6CE, 0x6B4A2A, 0x4F7A3A, 0x5A4A3A, 0x2E4A2E, 0x6A5A5A, 0x5A2A7A };
-  static final int[] PANTS = { 0x3A3F55, 0x3A3552, 0xC8BFA0, 0x3C3226, 0x4A3E2A, 0x3A3A44, 0x2A3A2A, 0x4A4044, 0x30183F };
-  static final int[] BOOT  = { 0x2A2A30, 0x1A1822, 0x6B4A2A, 0x2A2018, 0x3A2A1A, 0x2A2A2A, 0x1E1E1E, 0x2E2828, 0x1A1020 };
-  static final int[] CAPE  = { 0xB02A2A, 0x4A4470, 0, 0, 0x2E5A2E, 0, 0, 0, 0x3A1550 };
+  static final int[] WPN = { W_SWORD, W_DAGGER, W_MACE, W_KNIFE, W_BOW, W_NONE, W_BOW, W_CLUB, W_GREAT, W_STAFF, W_SWORD, W_STAFF, W_GREAT };
+  static final int[] SKIN  = { 0xF2C9A0, 0xE8B88A, 0xF5D0A8, 0xE9BE92, 0xF0C79B, 0x8FAF7A, 0xB8B8A8, 0x9A8F8F, 0x6A4A7A, 0xB89A8A, 0xE8E4D0, 0x8A6A4A, 0x9A9AA8 };
+  static final int[] TORSO = { 0x6A7AA0, 0x5A5278, 0xEDE6CE, 0x6B4A2A, 0x4F7A3A, 0x5A4A3A, 0x2E4A2E, 0x6A5A5A, 0x5A2A7A, 0x9A2A2A, 0xC8C4B0, 0x2E6A3A, 0x3A3A4E };
+  static final int[] PANTS = { 0x3A3F55, 0x3A3552, 0xC8BFA0, 0x3C3226, 0x4A3E2A, 0x3A3A44, 0x2A3A2A, 0x4A4044, 0x30183F, 0x7A2020, 0xB0AC98, 0x244A2C, 0x2A2A3A };
+  static final int[] BOOT  = { 0x2A2A30, 0x1A1822, 0x6B4A2A, 0x2A2018, 0x3A2A1A, 0x2A2A2A, 0x1E1E1E, 0x2E2828, 0x1A1020, 0x2A1010, 0x9A9680, 0x3A2A1A, 0x1A1A24 };
+  static final int[] CAPE  = { 0xB02A2A, 0x4A4470, 0, 0, 0x2E5A2E, 0, 0, 0, 0x3A1550, 0, 0, 0x2A4A2A, 0x6A1A1A };
   static final int[] ARM   = { 0, 0x8B5A2B, 0x9AA0AC, 0x5C86D0, 0xE0B83A };
   static final int[] WCOL  = { 0x9A9AA4, 0xCFD4E0, 0x66B0FF, 0xFFD24A, 0xFF6A2A };
 
@@ -123,9 +123,14 @@ public class Art {
         ovalO(hx + vx, hy + vy, 4, 4, 0x6B4A2A);
         break;
       case W_GREAT:
-        lineO(hx, hy, hx + vx * 3 / 2, hy + vy * 3 / 2, 3, 0x7A3AA0);
+        lineO(hx, hy, hx + vx * 3 / 2, hy + vy * 3 / 2, 3, col);
         lineO(hx + vx * 3 / 2, hy + vy * 3 / 2, hx + vx * 3 / 2 + vx / 6, hy + vy * 3 / 2 + vy / 6, 1, 0xFF3A3A);
         lineO(hx - px * 2, hy - py * 2, hx + px * 2, hy + py * 2, 2, 0xE0B83A);
+        break;
+      case W_STAFF:
+        lineO(hx - vx / 3, hy - vy / 3, hx + vx * 5 / 4, hy + vy * 5 / 4, 1, 0x7A5028);
+        ovalO(hx + vx * 5 / 4, hy + vy * 5 / 4, 3, 3, col);
+        oval(hx + vx * 5 / 4, hy + vy * 5 / 4, 1, 1, 0xFFFFFF);
         break;
       case W_BOW: {
         int top = hy - 8, bot = hy + 8, bx = hx + 2;
@@ -152,6 +157,10 @@ public class Art {
     int wcol = WCOL[wpnT];
     if (fs == 7) wcol = 0x6B4A2A;
     if (fs == 8) wcol = 0x7A3AA0;
+    if (fs == 9) wcol = 0xFF8A20;
+    if (fs == 10) wcol = 0x8A8A7A;
+    if (fs == 11) wcol = 0x44E080;
+    if (fs == 12) wcol = 0x6A7ADA;
     int wt = WPN[fs];
     boolean enemy = fs >= 5;
     if (pose == ROLL && !enemy) { drawRoll(fs, torso, sk, cape); return; }
@@ -164,7 +173,7 @@ public class Art {
     if (p == SWING) lean = 2;
     if (p == ROLL) lean = 4;   // embestida (solo enemigos)
     if (p == GUARD) lean = 1;
-    int tw = enemy && fs >= 7 ? 10 : 8;
+    int tw = (fs == 7 || fs == 8 || fs == 11 || fs == 12) ? 10 : 8;
     int nhx = NHX[p], nhy = NHY[p] + (walk || p < 2 ? bob : 0);
     int fhx = FHX[p], fhy = FHY[p] + (walk || p < 2 ? bob : 0);
     int wvx = WVX[p], wvy = WVY[p];
@@ -194,7 +203,9 @@ public class Art {
     rect(-tw / 2 + lean, -10 + bob, tw, 1, 0x3A2A1A);
     if (fs == 2) { rect(lean, -15 + bob, 1, 4, 0xE0B83A); rect(-1 + lean, -14 + bob, 3, 1, 0xE0B83A); }
     if (fs == 0 && armT == 0) rect(lean - 1, -15 + bob, 2, 5, 0xB02A2A);
-    if (fs == 8) { rect(-tw / 2 + lean, -10 + bob, tw, 2, 0xE0B83A); }
+    if (fs == 8 || fs == 12) { rect(-tw / 2 + lean, -10 + bob, tw, 2, 0xE0B83A); }
+    if (fs == 10) { for (int i = 0; i < 3; i++) rect(-tw / 2 + 1 + lean, -15 + bob + i * 2, tw - 2, 1, 0x5A5648); }
+    if (fs == 11) { rect(-tw / 2 + lean, -10 + bob, tw, 1, 0x8A6A3A); rect(lean - 1, -15 + bob, 2, 3, 0x66DD88); }
     if (!enemy && armT >= 2) {
       int pc = (armT == 2) ? 0xC0C6D2 : (armT == 3 ? 0x8FB0F0 : 0xFFD866);
       ovalO(-tw / 2 + 1 + lean, -15 + bob, 3, 3, pc);
@@ -314,6 +325,38 @@ public class Art {
         tri(hx - 4, hy - 3, hx - 9, hy - 13, hx - 1, hy - 5, 0xE8E0C8);
         tri(hx + 2, hy - 4, hx + 7, hy - 14, hx + 5, hy - 2, 0xE8E0C8);
         rect(hx + 1, hy - 1, 5, 2, 0xFF3030);
+        break;
+      case 9: // cultista
+        ovalO(hx, hy, 5, 5, 0x5A1A1A);
+        oval(hx + 3, hy, 3, 3, 0x120808);
+        rect(hx + 2, hy - 1, 1, 1, 0xFF8A20);
+        rect(hx + 4, hy - 1, 1, 1, 0xFF8A20);
+        tri(hx - 3, hy - 3, hx - 10, hy + 3, hx - 2, hy + 3, 0x5A1A1A);
+        break;
+      case 10: // esqueleto
+        eyes(hx, hy - 1, 0x1A1420);
+        rect(hx + 3, hy + 2, 3, 2, 0x1A1420);
+        rect(hx + 3, hy + 2, 1, 2, 0xE8E4D0);
+        rect(hx + 5, hy + 2, 1, 2, 0xE8E4D0);
+        break;
+      case 11: // druida
+        ovalO(hx, hy, 5, 5, 0x8A6A4A);
+        rect(hx + 1, hy - 1, 5, 2, 0x66FF99);
+        rect(hx - 4, hy + 2, 8, 3, 0xCFCFC0);
+        lineO(hx - 2, hy - 5, hx - 5, hy - 11, 1, 0x6B4A2A);
+        lineO(hx - 5, hy - 11, hx - 8, hy - 10, 1, 0x6B4A2A);
+        lineO(hx - 4, hy - 8, hx - 1, hy - 12, 1, 0x6B4A2A);
+        lineO(hx + 2, hy - 5, hx + 5, hy - 11, 1, 0x6B4A2A);
+        lineO(hx + 5, hy - 11, hx + 8, hy - 10, 1, 0x6B4A2A);
+        lineO(hx + 3, hy - 8, hx + 0, hy - 12, 1, 0x6B4A2A);
+        break;
+      case 12: // rey caido
+        ovalO(hx, hy, 5, 5, 0x3A3A4E);
+        rect(hx + 1, hy - 1, 5, 2, 0xFF3030);
+        tri(hx - 5, hy - 4, hx - 3, hy - 4, hx - 4, hy - 9, 0xE0B83A);
+        tri(hx - 2, hy - 5, hx + 1, hy - 5, hx - 1, hy - 11, 0xE0B83A);
+        tri(hx + 2, hy - 4, hx + 5, hy - 4, hx + 4, hy - 9, 0xE0B83A);
+        rect(hx - 5, hy - 4, 10, 2, 0xE0B83A);
         break;
       default:
         break;
