@@ -7,7 +7,7 @@ import java.io.*;
 import java.util.Random;
 
 public class Game extends GameCanvas implements Runnable {
-  static final int T = 16, MW = 30, MH = 20, N = 16, NA = 8, NPA = 6, ND = 14, NF = 8;
+  static final int T = 16, MW = 30, MH = 20, N = 16, NA = 16, NPA = 6, ND = 14, NF = 8;
   static final String STORE = "soulse72b";
   static Display disp;
   static MIDlet mid;
@@ -56,11 +56,57 @@ public class Game extends GameCanvas implements Runnable {
     "##############..##############",
     "#............................#",
     "#............................#",
-    "#...................B........#",
+    "#...................B......QDN",
     "#............................#",
     "##############################"
   };
-  static final String[][] MAPS = { M0, M1 };
+  static final String[] M2 = {
+    "##############################",
+    "#.................##.........#",
+    "#.........c...###.##.........#",
+    "#....###......###.##...###...#",
+    "#....###.s........##...###...#",
+    "#.a##.............##.........#",
+    "#..##.....###.....##.........#",
+    "#.........###...c.##.........#",
+    "#.........###.........h......#",
+    "V.P.....#..F...s...........QDN",
+    "#.......#.....e..........R...#",
+    "#..###.......................#",
+    "#..#a#.......###..##.........#",
+    "#............###..##.........#",
+    "#.....###....###..##.........#",
+    "#.....###.s.......##..###....#",
+    "#...e.###...###...##..###....#",
+    "#...........###.c.##.........#",
+    "#.................##.........#",
+    "##############################"
+  };
+  static final String[] M3 = {
+    "##############################",
+    "##############################",
+    "##############################",
+    "#########............#.......#",
+    "#########......s...F.#.......#",
+    "#########.c##....##..#.......#",
+    "#........#.##....##..#.......#",
+    "#.....e..#...........#h......#",
+    "#..F........s................#",
+    "V.P...........##......Q...X..#",
+    "#.............##.............#",
+    "#...............s....#.......#",
+    "#....a...#...h.......#.......#",
+    "#........#.##....##..#.......#",
+    "#########..##....##..#.......#",
+    "#########.....s....c.#.......#",
+    "#########............#.......#",
+    "##############################",
+    "##############################",
+    "##############################"
+  };
+  static final String[][] MAPS = { M0, M1, M2, M3 };
+  static final String[] ZNAME = { "Santuario", "Catacumbas", "Bosque Maldito", "Castillo del Rey Caído" };
+  static final int[] ZMUL = { 100, 115, 135, 160 };
 
   // ----- clases del jugador: 0 caballero, 1 asesino, 2 clerigo, 3 ladron, 4 arquero -----
   static final String[] CNAME = { "Caballero", "Asesino", "Clérigo", "Ladrón", "Arquero" };
@@ -83,15 +129,24 @@ public class Game extends GameCanvas implements Runnable {
   static final int[] ROLLSP = { 0, 2, 2, 3, 3, 4, 5, 5, 6, 6, 6 };
 
   // ----- enemigos: 0 hueco, 1 arquero, 2 pesado, 3 jefe -----
-  static final int[] EH = { 6, 6, 8, 10 };
-  static final int[] EHP = { 40, 25, 110, 350 };
-  static final int[] ESOUL = { 60, 70, 120, 1000 };
-  static final int[] ESPD = { 20, 22, 14, 22 };
-  static final int[] EG0 = { 3, 5, 15, 150 };
-  static final int[] EG1 = { 7, 8, 16, 100 };
-  static final int[] EIRON = { 20, 25, 60, 100 };
-  static final int[] EPOT = { 10, 12, 25, 100 };
-  static final int[] ESTYLE = { 5, 6, 7, 8 };
+  // tipos: 0 hueco, 1 arquero, 2 pesado, 3 guardian(jefe), 4 cultista, 5 esqueleto, 6 druida(jefe), 7 rey caido(jefe)
+  static final int[] EH = { 6, 6, 8, 10, 6, 6, 10, 11 };
+  static final int[] EHP = { 40, 25, 110, 350, 45, 55, 520, 800 };
+  static final int[] ESOUL = { 60, 70, 120, 1000, 90, 80, 1500, 3000 };
+  static final int[] ESPD = { 20, 22, 14, 22, 18, 30, 20, 24 };
+  static final int[] EG0 = { 3, 5, 15, 150, 8, 6, 250, 400 };
+  static final int[] EG1 = { 7, 8, 16, 100, 10, 8, 120, 200 };
+  static final int[] EIRON = { 20, 25, 60, 100, 35, 30, 100, 100 };
+  static final int[] EPOT = { 10, 12, 25, 100, 15, 10, 100, 100 };
+  static final int[] ESTYLE = { 5, 6, 7, 8, 9, 10, 11, 12 };
+  static final int[] EWIND = { 14, 18, 26, 18, 24, 10, 20, 13 };
+  static final int[] ECOOL = { 45, 70, 60, 35, 70, 35, 45, 28 };
+  static final int[] EDMG = { 12, 14, 26, 25, 18, 14, 28, 34 };
+  static final String[] BNAME = { "", "", "", "GUARDIÁN", "", "", "DRUIDA ANCESTRAL", "REY CAÍDO" };
+  static final int[] SEQ6 = { 3, 0, 2, 3, 2 };
+  static final int[] SEQ7 = { 0, 1, 2, 0, 4 };
+  static final int[] RX = { 1, 1, 0, -1, -1, -1, 0, 1 };
+  static final int[] RY = { 0, 1, 1, 1, 0, -1, -1, -1 };
 
   public boolean run = true;
   Random rng = new Random();
@@ -99,7 +154,8 @@ public class Game extends GameCanvas implements Runnable {
   int state = ST_TITLE, prevState, menuSel;
   String[] map;
   int cur, rMap;
-  boolean[] bossDead = new boolean[2], gate = new boolean[2];
+  boolean[] bossDead = new boolean[4], gate = new boolean[4];
+  int winT;
 
   // opciones y guardado
   boolean optVib = true, optHard = false;
@@ -132,10 +188,11 @@ public class Game extends GameCanvas implements Runnable {
   int[] eW = new int[N], eC = new int[N], eD = new int[N], eS = new int[N], eHit = new int[N], eDie = new int[N];
   int[] edx = new int[N], edy = new int[N], eMode = new int[N];
   int[] evx = new int[N], evy = new int[N], efx = new int[N], efy = new int[N], eAnim = new int[N];
+  int[] eP = new int[N], eK = new int[N], eB = new int[N], eRg = new int[N];
 
   // proyectiles
   int na;
-  int[] arX = new int[NA], arY = new int[NA], arVX = new int[NA], arVY = new int[NA], arL = new int[NA];
+  int[] arX = new int[NA], arY = new int[NA], arVX = new int[NA], arVY = new int[NA], arL = new int[NA], arT = new int[NA];
   int npa;
   int[] paX = new int[NPA], paY = new int[NPA], paVX = new int[NPA], paVY = new int[NPA], paL = new int[NPA], paD = new int[NPA];
 
@@ -149,8 +206,9 @@ public class Game extends GameCanvas implements Runnable {
   int camx, camy;
 
   // sprites
-  Image[] plFr, sprHo, sprAr, sprHe, sprBo, prevFr;
-  Image[] tiles = new Image[10];
+  Image[] plFr, prevFr;
+  Image[][] spr = new Image[8][];
+  Image[] tiles = new Image[20];
   int[] starX = new int[36], starY = new int[36];
   int selClass;
 
@@ -198,6 +256,15 @@ public class Game extends GameCanvas implements Runnable {
         g.setColor(shade(col, -14));
         g.drawLine(2, 3, 6, 7); g.drawLine(6, 7, 5, 11); g.drawLine(6, 7, 11, 8);
         break;
+      case 5: case 6: {
+        g.setColor(shade(col, -10)); g.fillRect(0, 0, T, T);
+        g.setColor(0x4A3220); g.fillRect(6, 10, 4, 6);
+        int o = kind == 5 ? 0 : 1;
+        g.setColor(0x0E2A14); g.fillArc(0, 0 + o, 16, 14, 0, 360);
+        g.setColor(0x1E5A2A); g.fillArc(1, 0 + o, 14, 12, 0, 360);
+        g.setColor(0x2E8A3E); g.fillArc(3 + o, 2, 7, 5, 0, 360);
+        g.setColor(0x8AD070); g.fillRect(5 + o, 3, 2, 1);
+        break; }
       default: {
         int mor = shade(col, -26);
         g.setColor(shade(col, 14)); g.drawLine(0, 0, T - 1, 0);
@@ -220,6 +287,14 @@ public class Game extends GameCanvas implements Runnable {
     }
     tiles[3] = mkTile(0x5A5666, 3); tiles[4] = mkTile(0x5A5666, 4);
     tiles[8] = mkTile(0x48606C, 3); tiles[9] = mkTile(0x48606C, 4);
+    int[] fl2 = { 0x24402A, 0x203824, 0x223C28 };
+    int[] fl3 = { 0x3C3844, 0x363240, 0x383442 };
+    for (int k = 0; k < 3; k++) {
+      tiles[10 + k] = mkTile(fl2[k], k);
+      tiles[15 + k] = mkTile(fl3[k], k);
+    }
+    tiles[13] = mkTile(0x24402A, 5); tiles[14] = mkTile(0x24402A, 6);
+    tiles[18] = mkTile(0x5A566E, 3); tiles[19] = mkTile(0x5A566E, 4);
   }
 
   // =====================================================================
@@ -240,7 +315,7 @@ public class Game extends GameCanvas implements Runnable {
   void startNew(int c) {
     cls = c; level = 1; souls = 0; gold = 20; iron = 0; potions = 3; wLvl = 0; aLvl = 0; kills = 0;
     bsSouls = 0;
-    bossDead[0] = false; bossDead[1] = false; gate[0] = false; gate[1] = false;
+    for (int i = 0; i < 4; i++) { bossDead[i] = false; gate[i] = false; }
     curSlot = 0;
     for (int i = 0; i < 3; i++) if (!slotUsed[i]) { curSlot = i; break; }
     prevFr = null;
@@ -254,17 +329,14 @@ public class Game extends GameCanvas implements Runnable {
   }
 
   void ensureSprites() {
-    boolean h0 = false, a0 = false, h2 = false, b3 = false;
-    for (int i = 0; i < ne; i++) {
-      if (eT[i] == 0) h0 = true;
-      if (eT[i] == 1) a0 = true;
-      if (eT[i] == 2) h2 = true;
-      if (eT[i] == 3) b3 = true;
+    boolean[] need = new boolean[8];
+    for (int i = 0; i < ne; i++) need[eT[i]] = true;
+    for (int t = 0; t < 8; t++) {
+      if (!need[t]) spr[t] = null;
     }
-    if (h0 && sprHo == null) sprHo = Art.build(5, 0, 0);
-    if (a0 && sprAr == null) sprAr = Art.build(6, 0, 0);
-    if (h2 && sprHe == null) sprHe = Art.build(7, 0, 0);
-    if (b3 && sprBo == null) sprBo = Art.build(8, 0, 0);
+    for (int t = 0; t < 8; t++) {
+      if (need[t] && spr[t] == null) spr[t] = Art.build(ESTYLE[t], 0, 0);
+    }
   }
 
   void loadMap(int m) {
@@ -286,8 +358,12 @@ public class Game extends GameCanvas implements Runnable {
           else if (c == 'a') t = 1;
           else if (c == 'h') t = 2;
           else if (c == 'B') t = 3;
+          else if (c == 'c') t = 4;
+          else if (c == 's') t = 5;
+          else if (c == 'R') t = 6;
+          else if (c == 'X') t = 7;
           if (t >= 0 && ne < N) {
-            esx[ne] = cx; esy[ne] = cy; eT[ne] = t; eh[ne] = EH[t]; emax[ne] = EHP[t];
+            esx[ne] = cx; esy[ne] = cy; eT[ne] = t; eh[ne] = EH[t]; emax[ne] = EHP[t] * ZMUL[m] / 100;
             ne++;
           }
         }
@@ -304,14 +380,15 @@ public class Game extends GameCanvas implements Runnable {
     lock = -1;
     resetEnemies();
     camSnap();
+    say(ZNAME[m], true, 80);
   }
 
   void resetEnemies() {
     for (int i = 0; i < ne; i++) {
-      ehp[i] = (eT[i] == 3 && bossDead[cur]) ? 0 : emax[i];
+      ehp[i] = (isBoss(eT[i]) && bossDead[cur]) ? 0 : emax[i];
       ex[i] = esx[i]; ey[i] = esy[i];
       eW[i] = 0; eC[i] = 30; eD[i] = 0; eS[i] = 0; eHit[i] = 0; eDie[i] = 0;
-      evx[i] = 0; evy[i] = 0; efx[i] = 0; efy[i] = 0;
+      evx[i] = 0; evy[i] = 0; efx[i] = 0; efy[i] = 0; eP[i] = 0; eK[i] = 0; eB[i] = 0; eRg[i] = 0;
     }
     na = 0; npa = 0;
     for (int i = 0; i < ND; i++) lL[i] = 0;
@@ -380,8 +457,10 @@ public class Game extends GameCanvas implements Runnable {
       d.writeInt(cls); d.writeInt(level); d.writeInt(gold); d.writeInt(souls); d.writeInt(iron);
       d.writeInt(potions); d.writeInt(wLvl); d.writeInt(aLvl); d.writeInt(kills);
       d.writeInt(rMap); d.writeInt(rx); d.writeInt(ry);
-      d.writeInt((bossDead[0] ? 1 : 0) | (bossDead[1] ? 2 : 0));
-      d.writeInt((gate[0] ? 1 : 0) | (gate[1] ? 2 : 0));
+      int bmk = 0, gmk = 0;
+      for (int q = 0; q < 4; q++) { if (bossDead[q]) bmk |= 1 << q; if (gate[q]) gmk |= 1 << q; }
+      d.writeInt(bmk);
+      d.writeInt(gmk);
       d.flush();
       byte[] b = bo.toByteArray();
       RecordStore rs = openStore();
@@ -405,8 +484,7 @@ public class Game extends GameCanvas implements Runnable {
       potions = d.readInt(); wLvl = d.readInt(); aLvl = d.readInt(); kills = d.readInt();
       rMap = d.readInt(); rx = d.readInt(); ry = d.readInt();
       int bm = d.readInt(), gm = d.readInt();
-      bossDead[0] = (bm & 1) != 0; bossDead[1] = (bm & 2) != 0;
-      gate[0] = (gm & 1) != 0; gate[1] = (gm & 2) != 0;
+      for (int q = 0; q < 4; q++) { bossDead[q] = (bm & (1 << q)) != 0; gate[q] = (gm & (1 << q)) != 0; }
       if (cls < 0 || cls > 4) cls = 0;
       if (rMap < 0 || rMap >= MAPS.length) rMap = 0;
       bsSouls = 0;
@@ -464,7 +542,7 @@ public class Game extends GameCanvas implements Runnable {
 
   boolean solid(int tx, int ty) {
     char c = tileAt(tx, ty);
-    return c == '#' || (c == 'G' && !gate[cur]);
+    return c == '#' || (c == 'G' && !gate[cur]) || (c == 'D' && !bossDead[cur]);
   }
 
   boolean free(int x, int y, int h) {
@@ -520,6 +598,7 @@ public class Game extends GameCanvas implements Runnable {
   // =====================================================================
   void hurtPlayer(int d, int hx, int hy) {
     if (dead || invul()) return;
+    d = d * ZMUL[cur] / 100;
     if (optHard) d = d * 3 / 2;
     d = d * (100 - defPct()) / 100;
     if (d < 1) d = 1;
@@ -547,12 +626,14 @@ public class Game extends GameCanvas implements Runnable {
   void hurtEnemy(int i, int d, boolean crit, int kx, int ky) {
     ehp[i] -= d;
     float_(ex[i], ey[i] - eh[i] - 24, "" + d, crit ? 0xFFE040 : 0xFFFFFF);
-    eHit[i] = eT[i] == 3 ? 3 : 9;
-    if (eT[i] != 3) { eW[i] = 0; eD[i] = 0; eC[i] = Math.max(eC[i], 20); }
-    int kb = eT[i] == 3 ? 20 : (eT[i] == 2 ? 36 : 56);
+    eHit[i] = isBoss(eT[i]) ? 3 : 9;
+    if (!isBoss(eT[i])) { eW[i] = 0; eD[i] = 0; eC[i] = Math.max(eC[i], 20); }
+    int kb = isBoss(eT[i]) ? 20 : (eT[i] == 2 ? 36 : 56);
     evx[i] = kx * kb; evy[i] = ky * kb;
     if (ehp[i] <= 0) killEnemy(i);
   }
+
+  boolean isBoss(int t) { return t == 3 || t == 6 || t == 7; }
 
   void killEnemy(int i) {
     ehp[i] = 0; eDie[i] = 16; kills++;
@@ -560,14 +641,15 @@ public class Game extends GameCanvas implements Runnable {
     souls += ESOUL[eT[i]];
     float_(ex[i], ey[i] - 30, "+" + ESOUL[eT[i]] + " almas", 0x88DDFF);
     int t = eT[i];
-    int g = (EG0[t] + rnd(EG1[t])) * CGOLD[cls] / 100;
+    int g = (EG0[t] + rnd(EG1[t])) * CGOLD[cls] / 100 * (100 + 25 * cur) / 100;
     spawnDrop(ex[i], ey[i], 0, g);
     int bonus = cls == 3 ? 15 : 0;
     if (rnd(100) < EIRON[t] + bonus) spawnDrop(ex[i], ey[i], 2, t == 3 ? 3 + rnd(3) : 1 + (t == 2 ? rnd(2) : 0));
     if (rnd(100) < EPOT[t] + bonus / 2) spawnDrop(ex[i], ey[i], 1, t == 3 ? 2 : 1);
-    if (t == 3) {
+    if (isBoss(t)) {
       bossDead[cur] = true;
-      say("ENEMIGO ABATIDO", true, 100);
+      if (t == 7) { say("¡VICTORIA!", true, 160); winT = 160; }
+      else say("ENEMIGO ABATIDO", true, 100);
       saveSlot(curSlot);
     }
   }
@@ -678,13 +760,15 @@ public class Game extends GameCanvas implements Runnable {
     if (any) buzz(25);
   }
 
-  void fireArrow(int x, int y, int dx, int dy) {
+  void fireArrow(int x, int y, int dx, int dy, int type) {
     if (na >= NA) return;
-    int n = Math.abs(dx) + Math.abs(dy);
+    int ax = Math.abs(dx), ay = Math.abs(dy);
+    int n = 2 * Math.max(ax, ay) + Math.min(ax, ay);
     if (n == 0) n = 1;
+    int sp = type == 1 ? 3 : 5;
     arX[na] = x; arY[na] = y;
-    arVX[na] = dx * 5 / n; arVY[na] = dy * 5 / n;
-    arL[na] = 60;
+    arVX[na] = dx * sp * 2 / n; arVY[na] = dy * sp * 2 / n;
+    arL[na] = type == 1 ? 90 : 60; arT[na] = type;
     na++;
   }
 
@@ -694,15 +778,62 @@ public class Game extends GameCanvas implements Runnable {
       arX[i] += arVX[i]; arY[i] += arVY[i]; arL[i]--;
       boolean gone = arL[i] <= 0 || solid(arX[i] / T, arY[i] / T);
       if (!gone && !dead && Math.abs(arX[i] - px) < 8 && Math.abs(arY[i] - py) < 8 && !invul()) {
-        hurtPlayer(14, -arVX[i], -arVY[i]);
+        hurtPlayer(arT[i] == 1 ? 18 : 14, -arVX[i], -arVY[i]);
         gone = true;
       }
       if (gone) {
         na--;
         arX[i] = arX[na]; arY[i] = arY[na];
-        arVX[i] = arVX[na]; arVY[i] = arVY[na]; arL[i] = arL[na];
+        arVX[i] = arVX[na]; arVY[i] = arVY[na]; arL[i] = arL[na]; arT[i] = arT[na];
       } else i++;
     }
+  }
+
+  int bossWind(int t, int m, boolean rage) {
+    int w = 20;
+    if (m == 0) w = t == 6 ? 20 : (rage ? 9 : 13);
+    else if (m == 1) w = rage ? 16 : 22;
+    else if (m == 2) w = rage ? 24 : 30;
+    else if (m == 3) w = 20;
+    else w = rage ? 22 : 28;
+    return w;
+  }
+
+  void finishAttack(int i, int t, int dx, int dy, int d, boolean rage) {
+    int m = eMode[i];
+    if (m == 1) { edx[i] = sg(dx); edy[i] = sg(dy); eD[i] = 12; return; }
+    if (m == 2) { // explosion de area
+      eB[i] = 10; eS[i] = 8;
+      int R = 60 + eh[i];
+      if (dx * dx + 4 * dy * dy < R * R) hurtPlayer(t == 7 ? 32 : 26, -dx, -dy);
+      eC[i] = rage ? 30 : 50;
+      buzz(40);
+      return;
+    }
+    if (m == 3) { // salva de tres proyectiles
+      eS[i] = 6;
+      fireArrow(ex[i], ey[i] - 4, dx, dy, 0);
+      fireArrow(ex[i], ey[i] - 4, dx - dy / 3, dy + dx / 3, 0);
+      fireArrow(ex[i], ey[i] - 4, dx + dy / 3, dy - dx / 3, 0);
+      eC[i] = 40;
+      return;
+    }
+    if (m == 4) { // anillo de fuego
+      eS[i] = 8;
+      for (int k = 0; k < 8; k++) fireArrow(ex[i], ey[i] - 4, RX[k] * 8, RY[k] * 8, 1);
+      eC[i] = rage ? 24 : 40;
+      return;
+    }
+    if (t == 1 || t == 4) {
+      fireArrow(ex[i], ey[i] - 4, dx, dy, t == 4 ? 1 : 0);
+      eS[i] = 6; eC[i] = ECOOL[t];
+      return;
+    }
+    eS[i] = 7;
+    if (d < 30 + eh[i]) hurtPlayer(EDMG[t], -dx, -dy);
+    if (t == 7 && eK[i] == 0) { eK[i] = 1; eW[i] = 8; eMode[i] = 0; return; }  // combo
+    eK[i] = 0;
+    eC[i] = Math.max(10, ECOOL[t] - (rage ? 10 : 0));
   }
 
   void updateEnemies() {
@@ -712,31 +843,23 @@ public class Game extends GameCanvas implements Runnable {
       int t = eT[i];
       int dx = px - ex[i], dy = py - ey[i];
       int d = Math.abs(dx) + Math.abs(dy);
+      boolean rage = t == 7 && ehp[i] * 2 < emax[i];
+      if (rage && eRg[i] == 0) { eRg[i] = 1; say("¡El Rey se enfurece!", false, 90); buzz(150); }
       if (eC[i] > 0) eC[i]--;
       if (eS[i] > 0) eS[i]--;
+      if (eB[i] > 0) eB[i]--;
       if (eHit[i] > 0) { eHit[i]--; moveE(i, 0, 0, 5); continue; }
-      if (eD[i] > 0) { // embestida del jefe
+      if (eD[i] > 0) { // embestida
         moveE(i, edx[i] * 80, edy[i] * 80, 100);
         eD[i]--;
-        if (d < 14 + eh[i] && !invul() && !dead) { hurtPlayer(30, -dx, -dy); eD[i] = 0; }
+        if (d < 14 + eh[i] && !invul() && !dead) { hurtPlayer(t == 7 ? 36 : 30, -dx, -dy); eD[i] = 0; }
         if (eD[i] == 0) eC[i] = 50;
         continue;
       }
       if (eW[i] > 0) { // preparando ataque
         moveE(i, 0, 0, 5);
         eW[i]--;
-        if (eW[i] == 0) {
-          if (eMode[i] == 1) {
-            edx[i] = sg(dx); edy[i] = sg(dy); eD[i] = 12;
-          } else if (t == 1) {
-            fireArrow(ex[i], ey[i] - 4, dx, dy);
-            eS[i] = 6; eC[i] = 70;
-          } else {
-            eS[i] = 7;
-            if (d < 30 + eh[i]) hurtPlayer(t == 3 ? 25 : (t == 2 ? 26 : 12), -dx, -dy);
-            eC[i] = t == 3 ? 35 : (t == 2 ? 60 : 45);
-          }
-        }
+        if (eW[i] == 0) finishAttack(i, t, dx, dy, d, rage);
         continue;
       }
       if (dead || d >= 150) {
@@ -745,18 +868,30 @@ public class Game extends GameCanvas implements Runnable {
         else moveE(i, 0, 0, 3);
         continue;
       }
-      int spd = ESPD[t];
-      if (t == 1) {
+      int spd = ESPD[t] + (rage ? 8 : 0);
+      if (t == 1 || t == 4) {          // arquero y cultista: atacan de lejos
         if (d < 60) steer(i, -dx, -dy, spd);
         else if (d > 120) steer(i, dx, dy, spd);
         else moveE(i, 0, 0, 3);
-        if (eC[i] == 0 && d >= 50) { eMode[i] = 0; eW[i] = 18; }
-      } else if (t == 3 && d > 70 && eC[i] == 0) {
-        eMode[i] = 1; eW[i] = 22;
+        if (eC[i] == 0 && d >= 50) { eMode[i] = 0; eW[i] = EWIND[t]; }
+      } else if (t == 3) {             // guardian
+        if (d > 70 && eC[i] == 0) { eMode[i] = 1; eW[i] = 22; }
+        else if (d < 24 + eh[i] && eC[i] == 0) { eMode[i] = 0; eW[i] = EWIND[t]; }
+        else if (d > 18 + eh[i]) steer(i, dx, dy, spd);
+        else moveE(i, 0, 0, 3);
+      } else if (t == 6 || t == 7) {   // druida y rey: secuencia de ataques
+        int[] seq = t == 6 ? SEQ6 : SEQ7;
+        int m = seq[eP[i] % seq.length];
+        if (eC[i] == 0) {
+          if ((m == 0 && d > 100) || (m == 2 && d > 110)) eP[i]++;   // jugador lejos: pasa a otro ataque
+          else if (m == 0 && d >= 24 + eh[i]) steer(i, dx, dy, spd);
+          else { eMode[i] = m; eW[i] = bossWind(t, m, rage); eP[i]++; eK[i] = 0; }
+        } else if (d > 40 + eh[i]) steer(i, dx, dy, spd / 2 + 4);
+        else moveE(i, 0, 0, 3);
       } else if (d < 24 + eh[i] && eC[i] == 0) {
-        eMode[i] = 0; eW[i] = (t == 3 ? 18 : (t == 2 ? 26 : 14));
+        eMode[i] = 0; eW[i] = EWIND[t];
       } else if (d > 18 + eh[i]) {
-        steer(i, dx, dy, spd);
+        if (t != 2 || (tick & 1) == 0) steer(i, dx, dy, spd);
       } else moveE(i, 0, 0, 3);
       if (Math.abs(evx[i]) + Math.abs(evy[i]) > 8) eAnim[i]++;
     }
@@ -888,6 +1023,7 @@ public class Game extends GameCanvas implements Runnable {
     updateEnemies(); updateArrows(); updatePArrows(); updateDrops(); updateFloats();
     updateCamera();
     if (msgT > 0) msgT--;
+    if (winT > 0) { winT--; if (winT == 0) say("Completaste Souls E72. ¡Sigue farmeando!", false, 300); }
   }
 
   // =====================================================================
@@ -943,7 +1079,8 @@ public class Game extends GameCanvas implements Runnable {
   int tcount;
 
   void openTitle() {
-    sprHo = null; sprAr = null; sprHe = null; sprBo = null; plFr = null; prevFr = null;
+    for (int q = 0; q < 8; q++) spr[q] = null;
+    plFr = null; prevFr = null;
     refreshSlots();
     state = ST_TITLE; menuSel = 0;
     boolean any = slotUsed[0] || slotUsed[1] || slotUsed[2];
@@ -1181,7 +1318,8 @@ public class Game extends GameCanvas implements Runnable {
     int t = eT[i], h = eh[i];
     int sx = ex[i] - camx, sy = ey[i] - camy;
     if (sx < -40 || sx > W + 40 || sy < -40 || sy > H + 50) return;
-    Image[] fr = t == 0 ? sprHo : (t == 1 ? sprAr : (t == 2 ? sprHe : sprBo));
+    Image[] fr = spr[t];
+    if (fr == null) return;
     int pose;
     if (eD[i] > 0) pose = Art.ROLL;
     else if (eS[i] > 0) pose = Art.SWING;
@@ -1192,9 +1330,21 @@ public class Game extends GameCanvas implements Runnable {
     int jit = eHit[i] > 0 ? ((eHit[i] & 1) == 0 ? 2 : -2) : 0;
     g.setColor(0x0A0A0E); g.fillArc(sx - h - 2, sy + h - 3, 2 * h + 4, 7, 0, 360);
     blit(g, fr[pose], ESTYLE[t], sx + jit, sy + h, px < ex[i]);
-    if (eW[i] > 0 && eMode[i] == 0 && t != 1) { g.setColor(0xFFDD00); g.fillRect(sx - 2, sy - h - 34, 4, 7); g.fillRect(sx - 2, sy - h - 25, 4, 3); }
-    else if (eW[i] > 0 && eMode[i] == 1) { g.setColor(0xFF6600); g.fillRect(sx - 2, sy - h - 38, 4, 7); g.fillRect(sx - 2, sy - h - 29, 4, 3); }
-    if (t != 3 && eDie[i] == 0) {
+    if (eW[i] > 0 && (eMode[i] == 2 || eMode[i] == 4)) {
+      int rr = 60 + h;
+      g.setColor(eMode[i] == 2 ? 0xFF4422 : 0xFF9922);
+      if (((tick / 3) & 1) == 0) g.drawArc(sx - rr, sy - rr / 2, 2 * rr, rr, 0, 360);
+      else g.drawArc(sx - rr + 2, sy - rr / 2 + 1, 2 * rr - 4, rr - 2, 0, 360);
+      g.setColor(0xFF4422); g.fillRect(sx - 2, sy - h - 38, 4, 7); g.fillRect(sx - 2, sy - h - 29, 4, 3);
+    } else if (eW[i] > 0 && eMode[i] == 1) { g.setColor(0xFF6600); g.fillRect(sx - 2, sy - h - 38, 4, 7); g.fillRect(sx - 2, sy - h - 29, 4, 3); }
+    else if (eW[i] > 0 && t != 1 && t != 4) { g.setColor(0xFFDD00); g.fillRect(sx - 2, sy - h - 34, 4, 7); g.fillRect(sx - 2, sy - h - 25, 4, 3); }
+    if (eB[i] > 0) {
+      int rr = (10 - eB[i]) * 7 + 8 + h;
+      g.setColor(0xFFCC44); g.drawArc(sx - rr, sy - rr / 2, 2 * rr, rr, 0, 360);
+      g.setColor(0xFF6622); g.drawArc(sx - rr + 3, sy - rr / 2 + 2, 2 * rr - 6, rr - 4, 0, 360);
+    }
+    if (eRg[i] > 0 && eDie[i] == 0) { g.setColor(0xFF2200); g.fillRect(sx - 8 + ((tick / 2) & 3) * 4, sy - h - 40 - (tick & 3), 3, 4); g.fillRect(sx + 4 - ((tick / 3) & 3) * 3, sy - h - 38 - ((tick / 2) & 3), 3, 4); }
+    if (!isBoss(t) && eDie[i] == 0) {
       int bw = 2 * h + 4;
       g.setColor(0x000000); g.fillRect(sx - bw / 2 - 1, sy - h - 24, bw + 2, 4);
       g.setColor(0xCC2222); g.fillRect(sx - bw / 2, sy - h - 23, bw * ehp[i] / emax[i], 2);
@@ -1230,8 +1380,8 @@ public class Game extends GameCanvas implements Runnable {
   void drawWorld(Graphics g) {
     int cx = camx, cy = camy;
     g.setColor(0x000000); g.fillRect(0, 0, W, H);
-    int set = cur == 1 ? 5 : 0;
-    int wallA = cur == 1 ? 8 : 3, wallB = cur == 1 ? 9 : 4;
+    int set = cur * 5;
+    int wallA = set + 3, wallB = set + 4;
     for (int y = cy / T; y <= (cy + H) / T; y++) {
       for (int x = cx / T; x <= (cx + W) / T; x++) {
         char tc = tileAt(x, y);
@@ -1245,6 +1395,12 @@ public class Game extends GameCanvas implements Runnable {
             g.setColor(0x000000); g.fillRect(sx0 + 1, sy0, 14, T);
             g.setColor(0x7A5A30); g.fillRect(sx0 + 2, sy0, 3, T); g.fillRect(sx0 + 7, sy0, 3, T); g.fillRect(sx0 + 12, sy0, 3, T);
             g.setColor(0xA08050); g.drawLine(sx0, sy0 + 5, sx0 + 15, sy0 + 5); g.drawLine(sx0, sy0 + 11, sx0 + 15, sy0 + 11);
+          } else if (tc == 'D' && !bossDead[cur]) {
+            g.setColor(0x000000); g.fillRect(sx0, sy0, T, T);
+            g.setColor(0x4A3018); g.fillRect(sx0 + 1, sy0 + 1, T - 2, T - 2);
+            g.setColor(0x2A1A0C); g.drawLine(sx0 + 8, sy0 + 1, sx0 + 8, sy0 + T - 2);
+            g.setColor(0x9898A8); g.fillRect(sx0 + 1, sy0 + 4, T - 2, 2); g.fillRect(sx0 + 1, sy0 + 10, T - 2, 2);
+            g.setColor(0xE0B83A); g.fillRect(sx0 + 6, sy0 + 7, 4, 3);
           } else if (tc == 'N' || tc == 'V') {
             g.setColor(0x040406); g.fillRect(sx0, sy0, T, T);
             g.setColor(0x887755); g.drawRect(sx0, sy0, T - 1, T - 1);
@@ -1283,8 +1439,15 @@ public class Game extends GameCanvas implements Runnable {
     for (int i = 0; i < ne; i++) if (ey[i] >= py) drawEnemy(g, i);
     for (int i = 0; i < na; i++) {
       int sx = arX[i] - cx, sy = arY[i] - cy;
-      g.setColor(0xCC9955); g.drawLine(sx, sy, sx - arVX[i] * 2, sy - arVY[i] * 2);
-      g.setColor(0xFFFFFF); g.fillRect(sx, sy, 2, 2);
+      if (arT[i] == 1) {
+        g.setColor(0xFF5500); g.fillArc(sx - 4, sy - 4, 9, 9, 0, 360);
+        g.setColor(0xFFAA22); g.fillArc(sx - 2, sy - 3, 6, 6, 0, 360);
+        g.setColor(0xFFEE99); g.fillRect(sx - 1, sy - 2, 2, 2);
+        g.setColor(0xAA3300); g.drawLine(sx, sy, sx - arVX[i] * 3, sy - arVY[i] * 3);
+      } else {
+        g.setColor(0xCC9955); g.drawLine(sx, sy, sx - arVX[i] * 2, sy - arVY[i] * 2);
+        g.setColor(0xFFFFFF); g.fillRect(sx, sy, 2, 2);
+      }
     }
     for (int i = 0; i < npa; i++) {
       int sx = paX[i] - cx, sy = paY[i] - cy;
@@ -1315,9 +1478,9 @@ public class Game extends GameCanvas implements Runnable {
     if (!dead && nearBonfire() >= 0) text(g, "OK: hoguera", W / 2, H - 22, 0xFFFFFF, Graphics.TOP | Graphics.HCENTER);
     else if (!dead && nearLever()) text(g, "OK: palanca", W / 2, H - 22, 0xFFFFFF, Graphics.TOP | Graphics.HCENTER);
     for (int i = 0; i < ne; i++) {
-      if (eT[i] == 3 && ehp[i] > 0 && Math.abs(ex[i] - px) + Math.abs(ey[i] - py) < 190) {
-        bar(g, 30, H - 14, W - 60, 7, ehp[i], emax[i], 0xCC2222, 0x3A0A0A);
-        text(g, "GUARDIÁN", W / 2, H - 30, 0xFFFFFF, Graphics.TOP | Graphics.HCENTER);
+      if (isBoss(eT[i]) && ehp[i] > 0 && Math.abs(ex[i] - px) + Math.abs(ey[i] - py) < 190) {
+        bar(g, 30, H - 14, W - 60, 7, ehp[i], emax[i], eRg[i] > 0 ? 0xFF6600 : 0xCC2222, 0x3A0A0A);
+        text(g, BNAME[eT[i]], W / 2, H - 30, 0xFFFFFF, Graphics.TOP | Graphics.HCENTER);
       }
     }
     Font big = Font.getFont(Font.FACE_PROPORTIONAL, Font.STYLE_BOLD, Font.SIZE_LARGE);
