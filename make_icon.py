@@ -58,3 +58,4 @@ png = b'\x89PNG\r\n\x1a\n' + chunk(b'IHDR', struct.pack('>IIBBBBB', S, S, 8, 6, 
 os.makedirs('res', exist_ok=True)
 open('res/icon.png', 'wb').write(png)
 print('res/icon.png', len(png), 'bytes')
+
