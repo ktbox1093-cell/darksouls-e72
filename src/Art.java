@@ -11,16 +11,17 @@ public class Art {
 
   // estilos: 0 caballero, 1 asesino, 2 clerigo, 3 ladron, 4 arquero,
   //          5 hueco, 6 arquero enemigo, 7 pesado, 8 jefe
-  static final int[] SC = { 4, 4, 4, 4, 4, 4, 4, 5, 6, 4, 4, 6, 6 };
+  static final int[] SC = { 4, 4, 4, 4, 4, 4, 4, 5, 6, 4, 4, 6, 6, 4 };
   static final int CW = 44, CH = 44, OXU = 22, OYU = 39;
-  static final int[] WPN = { W_SWORD, W_DAGGER, W_MACE, W_KNIFE, W_BOW, W_NONE, W_BOW, W_CLUB, W_GREAT, W_STAFF, W_SWORD, W_STAFF, W_GREAT };
-  static final int[] SKIN  = { 0xF2C9A0, 0xE8B88A, 0xF5D0A8, 0xE9BE92, 0xF0C79B, 0x8FAF7A, 0xB8B8A8, 0x9A8F8F, 0x6A4A7A, 0xB89A8A, 0xE8E4D0, 0x8A6A4A, 0x9A9AA8 };
-  static final int[] TORSO = { 0x6A7AA0, 0x5A5278, 0xEDE6CE, 0x6B4A2A, 0x4F7A3A, 0x5A4A3A, 0x2E4A2E, 0x6A5A5A, 0x5A2A7A, 0x9A2A2A, 0xC8C4B0, 0x2E6A3A, 0x3A3A4E };
-  static final int[] PANTS = { 0x3A3F55, 0x3A3552, 0xC8BFA0, 0x3C3226, 0x4A3E2A, 0x3A3A44, 0x2A3A2A, 0x4A4044, 0x30183F, 0x7A2020, 0xB0AC98, 0x244A2C, 0x2A2A3A };
-  static final int[] BOOT  = { 0x2A2A30, 0x1A1822, 0x6B4A2A, 0x2A2018, 0x3A2A1A, 0x2A2A2A, 0x1E1E1E, 0x2E2828, 0x1A1020, 0x2A1010, 0x9A9680, 0x3A2A1A, 0x1A1A24 };
-  static final int[] CAPE  = { 0xB02A2A, 0x4A4470, 0, 0, 0x2E5A2E, 0, 0, 0, 0x3A1550, 0, 0, 0x2A4A2A, 0x6A1A1A };
+  static final int[] WPN = { W_SWORD, W_DAGGER, W_MACE, W_KNIFE, W_BOW, W_NONE, W_BOW, W_CLUB, W_GREAT, W_STAFF, W_SWORD, W_STAFF, W_GREAT, W_NONE };
+  static final int[] SKIN  = { 0xF2C9A0, 0xE8B88A, 0xF5D0A8, 0xE9BE92, 0xF0C79B, 0x8FAF7A, 0xB8B8A8, 0x9A8F8F, 0x6A4A7A, 0xB89A8A, 0xE8E4D0, 0x8A6A4A, 0x9A9AA8, 0xF0C79B };
+  static final int[] TORSO = { 0x6A7AA0, 0x5A5278, 0xEDE6CE, 0x6B4A2A, 0x4F7A3A, 0x5A4A3A, 0x2E4A2E, 0x6A5A5A, 0x5A2A7A, 0x9A2A2A, 0xC8C4B0, 0x2E6A3A, 0x3A3A4E, 0x7A5A2A };
+  static final int[] PANTS = { 0x3A3F55, 0x3A3552, 0xC8BFA0, 0x3C3226, 0x4A3E2A, 0x3A3A44, 0x2A3A2A, 0x4A4044, 0x30183F, 0x7A2020, 0xB0AC98, 0x244A2C, 0x2A2A3A, 0x4A3A28 };
+  static final int[] BOOT  = { 0x2A2A30, 0x1A1822, 0x6B4A2A, 0x2A2018, 0x3A2A1A, 0x2A2A2A, 0x1E1E1E, 0x2E2828, 0x1A1020, 0x2A1010, 0x9A9680, 0x3A2A1A, 0x1A1A24, 0x2A2018 };
+  static final int[] CAPE  = { 0xB02A2A, 0x4A4470, 0, 0, 0x2E5A2E, 0, 0, 0, 0x3A1550, 0, 0, 0x2A4A2A, 0x6A1A1A, 0 };
   static final int[] ARM   = { 0, 0x8B5A2B, 0x9AA0AC, 0x5C86D0, 0xE0B83A };
-  static final int[] WCOL  = { 0x9A9AA4, 0xCFD4E0, 0x66B0FF, 0xFFD24A, 0xFF6A2A };
+  static final int[] WCOL  = { 0x9A9AA4, 0xCFD4E0, 0x66B0FF, 0xFFD24A, 0xFF6A2A,
+                              0xFF7A1A, 0x66E040, 0x9AE4FF, 0xCC2244, 0xFFEE55 };
 
   static final int[] NFX = {  2,  2, -4, 0, 4, 0, -3, 5, 5,  2 };
   static final int[] FFX = { -2, -2,  4, 0,-4, 0,  2,-4,-4, -3 };
@@ -198,6 +199,7 @@ public class Art {
     rectO(FFX[p] - 1, -3 - fl, 5, 3, boot);
     lineO(2, -8, NFX[p], -nl - 1, 3, pants);
     rectO(NFX[p] - 1, -3 - nl, 5, 3, boot);
+    if (fs == 13) { rectO(-10 + lean, -17 + bob, 7, 10, 0x8A5A2B); rect(-10 + lean, -17 + bob, 7, 2, 0x6A4220); ovalO(-7 + lean, -19 + bob, 4, 2, 0xC8B078); }
     // torso
     rectO(-tw / 2 + lean, -16 + bob, tw, 8, torso);
     rect(-tw / 2 + lean, -10 + bob, tw, 1, 0x3A2A1A);
@@ -229,6 +231,7 @@ public class Art {
       if (wt == W_BOW && p == WIND) { nhx = 8; nhy = -15; }
       weapon(wt, nhx, nhy, wvx, wvy, wcol, pull);
     }
+    if (fs == 13) { rectO(nhx + 1, nhy + 1, 4, 5, 0xFFD84A); rect(nhx + 2, nhy - 1, 2, 2, 0x555555); }
     // escudo
     if (fs == 0) {
       if (p == GUARD) {
@@ -349,6 +352,13 @@ public class Art {
         lineO(hx + 2, hy - 5, hx + 5, hy - 11, 1, 0x6B4A2A);
         lineO(hx + 5, hy - 11, hx + 8, hy - 10, 1, 0x6B4A2A);
         lineO(hx + 3, hy - 8, hx + 0, hy - 12, 1, 0x6B4A2A);
+        break;
+      case 13: // mercader
+        ovalO(hx, hy, 5, 5, 0x6A4A2A);
+        oval(hx + 3, hy + 1, 3, 3, sk);
+        eyes(hx, hy + 1, 0x1A1420);
+        rect(hx + 3, hy + 3, 2, 1, 0x8A3A2A);
+        tri(hx - 3, hy - 3, hx - 9, hy + 2, hx - 2, hy + 3, 0x6A4A2A);
         break;
       case 12: // rey caido
         ovalO(hx, hy, 5, 5, 0x3A3A4E);
